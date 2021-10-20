@@ -22,7 +22,7 @@ class App extends React.Component {
 
   submitRecipe = (event) => {
     event.preventDefault()
-    this.setState({recipes: [
+    this.setState({recipes: [ ...this.state.recipes,
         {
           name: this.state.newRecipeName,
           instructions: this.state.newRecipeInstructions
@@ -46,26 +46,28 @@ class App extends React.Component {
           placeholder="write recipe instructions here..."
           onChange={this.handleChange}
           value={this.state.newRecipeInstructions} />
-        <input type="submit" />
+        <input type="submit" onSubmit={this.toggleAddRecipeForm}/>
       </form>
     )
 
     return (
       <div className="App">
-      <h1 className="App-header">My Recipes</h1>
-      {
-        this.state.isAddRecipeFormDisplayed
-        ? addNewRecipeForm
-        : <button id="add-recipe" onClick={this.toggleAddRecipeForm}>Add Recipe</button>
-      }
-      {
-        this.state.recipes.length > 0 ?
-        <ul>
-          {this.state.recipes.map((recipe) => {<li>{ recipe.name }</li>})}
-        </ul> :
-        <p>There are no recipes to list.</p>
-      }
-    </div>
+        <h1 className="App-header">My Recipes</h1>
+        {
+          this.state.isAddRecipeFormDisplayed
+          ? addNewRecipeForm
+          : <button id="add-recipe" onClick={this.toggleAddRecipeForm}>Add Recipe</button>
+        }
+        {
+          this.state.recipes.length > 0 ?
+          <ul>
+            {this.state.recipes.map((recipe, index) => {
+            return <li key = {index}>{ recipe.name }</li>
+            })}
+          </ul> :
+          <p>There are no recipes to list.</p>
+        }
+      </div>
     )
   }
 }
